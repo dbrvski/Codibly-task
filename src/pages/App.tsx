@@ -4,8 +4,11 @@ import useProducts from "../hooks/useProducts";
 import Filter from "../components/Filter";
 import ProductList from "../components/ProductList";
 import { useDebounce } from "use-debounce";
+import "../styles/globals.css";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { ISingleProduct } from "../types/useProductsTypes";
 
-const customStyles = {
+const modalStyles = {
   content: {
     top: "50%",
     left: "50%",
@@ -13,6 +16,9 @@ const customStyles = {
     bottom: "auto",
     marginRight: "-50%",
     transform: "translate(-50%, -50%)",
+    fontSize: "3rem",
+    padding: "5rem",
+    backgroundColor: "rgba(193, 107, 37, 0.8)",
   },
 };
 
@@ -27,15 +33,16 @@ const App: React.FC = () => {
     setFilterId,
   } = useProducts();
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<any>(null);
+  const [selectedProduct, setSelectedProduct] = useState<ISingleProduct | null>(
+    null
+  );
 
-  const [filterIdDebounced] = useDebounce(filterId, 500); // Użyjemy hooka useDebounce do opóźnienia aktualizacji wartości filterId
-
+  const [filterIdDebounced] = useDebounce(filterId, 500);
   const filteredProducts = filterIdDebounced
     ? allProducts.filter((product) => product.id === filterIdDebounced)
     : allProducts;
 
-  const openModal = (product: any) => {
+  const openModal = (product: ISingleProduct) => {
     setSelectedProduct(product);
     setIsOpen(true);
   };
@@ -45,17 +52,25 @@ const App: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="wrapper">
       <h1>Product List</h1>
       {error && <p>{error}</p>}
       <Filter value={filterId} onChange={setFilterId} />
       <ProductList products={filteredProducts} onRowClick={openModal} />
-      {page > 1 && <button onClick={fetchLess}>Less</button>}
-      {page < 3 && <button onClick={fetchMore}>More</button>}
+      {page > 1 && (
+        <button className="arrows" onClick={fetchLess}>
+          <FaArrowLeft /> Less
+        </button>
+      )}
+      {page < 3 && (
+        <button className="arrows" onClick={fetchMore}>
+          More <FaArrowRight />
+        </button>
+      )}
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        style={customStyles}
+        style={modalStyles}
         contentLabel="Product Details"
       >
         <h2>Product Details</h2>
@@ -66,7 +81,9 @@ const App: React.FC = () => {
             <p>Year: {selectedProduct.year}</p>
             <p>Color: {selectedProduct.color}</p>
             <p>Pantone Value: {selectedProduct.pantone_value}</p>
-            <button onClick={closeModal}>Close</button>
+            <button className="closeModal" onClick={closeModal}>
+              Close
+            </button>
           </div>
         )}
       </Modal>

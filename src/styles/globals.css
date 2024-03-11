@@ -1,0 +1,30 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.productList {
+  background-color: rgb(243, 223, 223);
+  padding: 2rem;
+  margin-top: 2rem;
+  font-size: 2rem;
+}
+.productListHeaders {
+  background-color: rgb(163, 163, 163);
+}
+.arrows {
+  background-color: beige;
+  font-size: 2rem;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  border: none;
+  margin-top: 1rem;
+  border-radius: 0.3rem;
+}
+.closeModal {
+  background-color: rgb(246, 239, 146);
+  font-size: 2rem;
+  border: none;
+  padding: 1rem;
+  border-radius: 1rem;
+}

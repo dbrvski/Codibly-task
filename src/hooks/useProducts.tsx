@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import {
   ISingleProduct,
   IInitialData,
   IUseProducts,
 } from "../types/useProductsTypes";
+import baseUrl from "../axiosSetup";
 
 const useProducts = (): IUseProducts => {
   const [products, setProducts] = useState<ISingleProduct[]>([]);
@@ -22,10 +22,11 @@ const useProducts = (): IUseProducts => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get<IInitialData>(
-          `https://reqres.in/api/products?page=${page}&per_page=5`
+        const response = await baseUrl.get<IInitialData>(
+          `products?page=${page}&per_page=5`
         );
         setProducts(response.data.data);
+        setError(null);
       } catch (error) {
         setError("Error fetching data");
         //I could use smth like toastify but for this e.g. a regular div is enough:)

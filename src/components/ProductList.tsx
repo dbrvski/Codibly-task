@@ -1,4 +1,5 @@
 import React from "react";
+import "../styles/globals.css";
 
 interface IProduct {
   id: number;
@@ -15,12 +16,12 @@ interface IProductListProps {
 
 const ProductList: React.FC<IProductListProps> = ({ products, onRowClick }) => {
   return (
-    <table>
+    <table className="productList">
       <thead>
         <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Year</th>
+          <th className="productListHeaders">ID</th>
+          <th className="productListHeaders">Name</th>
+          <th className="productListHeaders">Year</th>
         </tr>
       </thead>
       <tbody>
